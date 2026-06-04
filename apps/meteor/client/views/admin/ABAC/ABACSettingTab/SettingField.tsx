@@ -1,7 +1,7 @@
 import type { ISettingColor, SettingEditor, SettingValue } from '@rocket.chat/core-typings';
 import { isSettingColor, isSetting } from '@rocket.chat/core-typings';
 import { useDebouncedCallback } from '@rocket.chat/fuselage-hooks';
-import { useSettingsDispatch, useSettingStructure } from '@rocket.chat/ui-contexts';
+import { useSetModal, useSettingsDispatch, useSettingStructure } from '@rocket.chat/ui-contexts';
 import DOMPurify from 'dompurify';
 import type { ReactElement } from 'react';
 import { useEffect, useMemo, useState, useCallback } from 'react';
@@ -16,9 +16,10 @@ type SettingFieldProps = {
 	className?: string;
 	settingId: string;
 	sectionChanged?: boolean;
+	renderConfirmModal?: (props: { onConfirm: () => void; onCancel: () => void }) => ReactElement;
 };
 
-function SettingField({ className = undefined, settingId, sectionChanged }: SettingFieldProps): ReactElement {
+function SettingField({ className = undefined, settingId, sectionChanged, renderConfirmModal }: SettingFieldProps): ReactElement {
 	const setting = useEditableSetting(settingId);
 	const persistedSetting = useSettingStructure(settingId);
 	const hasSettingModule = useHasSettingModule(setting);
@@ -33,6 +34,7 @@ function SettingField({ className = undefined, settingId, sectionChanged }: Sett
 	}
 
 	const dispatch = useSettingsDispatch();
+	const setModal = useSetModal();
 
 	const update = useDebouncedCallback(
 		({ value, editor }: { value?: SettingValue; editor?: SettingEditor }) => {
@@ -67,11 +69,24 @@ function SettingField({ className = undefined, settingId, sectionChanged }: Sett
 	}, [(setting as ISettingColor).editor]);
 
 	const onChangeValue = useCallback(
-		(value: SettingValue) => {
-			setValue(value);
-			update({ value });
+		(newValue: SettingValue) => {
+			if (renderConfirmModal && newValue !== value) {
+				setModal(
+					renderConfirmModal({
+						onConfirm: () => {
+							setValue(newValue);
+							update({ value: newValue });
+							setModal();
+						},
+						onCancel: () => setModal(),
+					}),
+				);
+				return;
+			}
+			setValue(newValue);
+			update({ value: newValue });
 		},
-		[update],
+		[renderConfirmModal, value, update, setModal],
 	);
 
 	const onChangeEditor = useCallback(
