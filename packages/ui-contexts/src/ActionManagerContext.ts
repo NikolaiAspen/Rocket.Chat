@@ -2,23 +2,24 @@ import type { DistributiveOmit } from '@rocket.chat/core-typings';
 import type * as UiKit from '@rocket.chat/ui-kit';
 import { createContext } from 'react';
 
-export type ActionButtonUpdatePayload = Omit<Extract<UiKit.ServerInteraction, { type: 'action_button.update' }>, 'type' | 'triggerId'>;
+export type ActionButtonUpdatePayload = Omit<Extract<UiKit.ServerInteraction, { type: 'action_button.update' }>, 'triggerId'>;
 
 /**
  * An action manager is responsible for handling interactions with the UiKit.
  */
 export interface IActionManager {
 	on(viewId: string, listener: (data: any) => void): void;
-	on(eventName: 'action_button.update', listener: (payload: ActionButtonUpdatePayload) => void): void;
 	on(eventName: 'busy', listener: ({ busy }: { busy: boolean }) => void): void;
 	off(viewId: string, listener: (data: any) => any): void;
-	off(eventName: 'action_button.update', listener: (payload: ActionButtonUpdatePayload) => void): void;
 	off(eventName: 'busy', listener: ({ busy }: { busy: boolean }) => void): void;
 	notifyBusy(): void;
 	notifyIdle(): void;
 	generateTriggerId(appId: string | undefined): string;
-	emitInteraction(appId: string, userInteraction: DistributiveOmit<UiKit.UserInteraction, 'triggerId'>): Promise<void>;
-	handleServerInteraction(interaction: UiKit.ServerInteraction): UiKit.ServerInteraction['type'] | undefined;
+	emitInteraction(
+		appId: string,
+		userInteraction: DistributiveOmit<UiKit.UserInteraction, 'triggerId'>,
+	): Promise<void | ActionButtonUpdatePayload>;
+	handleServerInteraction(interaction: UiKit.ServerInteraction): UiKit.ServerInteraction['type'] | ActionButtonUpdatePayload | undefined;
 	getInteractionPayloadByViewId(viewId: UiKit.ContextualBarView['id']):
 		| {
 				view: UiKit.ContextualBarView;

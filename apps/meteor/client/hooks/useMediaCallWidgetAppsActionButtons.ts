@@ -1,7 +1,6 @@
 import '@rocket.chat/apps-engine/experimental/MediaCallActionButtons';
-import { useToastMessageDispatch, type ActionButtonUpdatePayload } from '@rocket.chat/ui-contexts';
+import { useToastMessageDispatch } from '@rocket.chat/ui-contexts';
 import type {
-	AppButtonInteractionHandler,
 	MediaCallAppActionDescriptor,
 	MediaCallAppActionsProviderProps,
 } from '@rocket.chat/ui-voip/dist/experimental/AppActionButtons';
@@ -36,27 +35,8 @@ export const useMediaCallWidgetAppsActionButtons = () => {
 						}),
 					) || [],
 
-			handleInteraction: async ({ button, sessionState }) => {
-				const { promise, resolve } = Promise.withResolvers<Awaited<ReturnType<AppButtonInteractionHandler>>>();
-				const updateHandler: (data: ActionButtonUpdatePayload) => void = ({ appId, actionId, update }) => {
-					if (appId !== button.appId || actionId !== button.actionId) {
-						return;
-					}
-
-					resolve({
-						update: {
-							...(update.labelI18n && { label: t(Utilities.getI18nKeyForApp(update.labelI18n, appId)) }),
-							...(update.variant && { variant: update.variant }),
-							...(update.disabled !== undefined && { disabled: update.disabled }),
-							...(update.actionId && { actionId: update.actionId }),
-						},
-					});
-				};
-
-				actionManager.on('action_button.update', updateHandler);
-
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-return -- The promise IS typed.
-				return actionManager
+			handleInteraction: async ({ button, sessionState }) =>
+				actionManager
 					.emitInteraction(button.appId, {
 						type: 'actionButton',
 						actionId: button.actionId,
@@ -73,13 +53,22 @@ export const useMediaCallWidgetAppsActionButtons = () => {
 							dispatchToastMessage({ type: 'error', message: t('An_error_occurred_while_executing_the_action') });
 						}
 					})
-					.finally(() => {
-						resolve({ update: { disabled: false } });
-						// If the app responds with an update, the handler will be triggered before this promise is resolved. If the response is NOT an update, the handler would never be called anyway
-						actionManager.off('action_button.update', updateHandler);
-					})
-					.then(() => promise);
-			},
+					.then((response) => {
+						if (!response) {
+							return;
+						}
+
+						const { update, appId } = response;
+
+						return {
+							update: {
+								...(update.labelI18n && { label: t(Utilities.getI18nKeyForApp(update.labelI18n, appId)) }),
+								...(update.variant && { variant: update.variant }),
+								...(update.disabled !== undefined && { disabled: update.disabled }),
+								...(update.actionId && { actionId: update.actionId }),
+							},
+						};
+					}),
 		}),
 		[actionManager, applyAuthFilter, data, dispatchToastMessage, t],
 	);
