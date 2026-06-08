@@ -119,6 +119,7 @@ const MediaCallRoomSection = ({ showChat, onToggleChat, user, containerHeight }:
 			flexDirection='column'
 			{...getSplitStyles(showChat)}
 		>
+			{visibleActions.length > 0 && <ActionStrip leftSlot={visibleActions} />}
 			<CardListSection>
 				<CardListContainer focusedCard={focusedCard ? focusedCardElement : undefined} shouldWrapCards={shouldWrapCards}>
 					<PeerCard displayName={user.displayName} avatarUrl={user.avatarUrl} muted={muted} held={held} />
@@ -135,7 +136,6 @@ const MediaCallRoomSection = ({ showChat, onToggleChat, user, containerHeight }:
 				}
 				rightSlot={
 					<ButtonGroup>
-						{visibleActions}
 						<ActionToggleChat pressed={showChat} onClick={onToggleChat} />
 						<DevicePicker secondary />
 					</ButtonGroup>
