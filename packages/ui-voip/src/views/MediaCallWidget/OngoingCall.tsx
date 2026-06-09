@@ -17,6 +17,7 @@ import {
 	useInfoSlots,
 } from '../../components';
 import { useMediaCallView } from '../../context/MediaCallViewContext';
+import { isExternalPeer } from '../../utils/isExternalPeer';
 
 const OngoingCall = () => {
 	const { t } = useTranslation();
@@ -50,7 +51,7 @@ const OngoingCall = () => {
 				<DevicePicker />
 			</WidgetHeader>
 			<WidgetContent>
-				{peerInfo.external ? <PeerInfo {...peerInfo} /> : <PeerInfo {...peerInfo} slots={remoteSlots} remoteMuted={remoteMuted} />}
+				<PeerInfo {...peerInfo} slots={remoteSlots} remoteMuted={remoteMuted} />
 			</WidgetContent>
 			<WidgetInfo slots={slots} />
 			<WidgetFooter>
@@ -75,7 +76,7 @@ const OngoingCall = () => {
 					/>
 					<ActionButton
 						label={t('Voice_call__user__hangup', {
-							user: peerInfo.external ? peerInfo.displayName || peerInfo.number : peerInfo.displayName,
+							user: isExternalPeer(peerInfo) ? peerInfo.displayName || peerInfo.number : peerInfo.displayName,
 						})}
 						icon='phone-off'
 						danger
