@@ -55,7 +55,7 @@ export const usePeerAutocomplete = (onSelectPeer: (peerInfo: PeerInfo) => void, 
 	const updateNumberFilter = (next: string) => {
 		setFilter(next);
 		if (peerInfo && 'number' in peerInfo) {
-			onSelectPeer({ number: next });
+			onSelectPeer({ external: true, number: next });
 		}
 	};
 

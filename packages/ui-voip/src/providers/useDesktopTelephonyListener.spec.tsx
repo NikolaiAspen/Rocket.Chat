@@ -20,7 +20,7 @@ const sessionFor = (state: SessionState['state']): SessionState => {
 		return { ...baseSession, state, callId: undefined };
 	}
 
-	return { ...baseSession, state, callId: 'call-id', peerInfo: { number: '000' } } as SessionState;
+	return { ...baseSession, state, callId: 'call-id', peerInfo: { external: true, number: '000' } } as SessionState;
 };
 
 type TelephonyCallback = (payload: { phoneNumber: string; rawUri: string }) => void;
@@ -86,7 +86,7 @@ it('opens the widget pre-filled when the widget is closed', () => {
 
 	bridge.fire('+15551234567');
 
-	expect(toggleWidget).toHaveBeenCalledWith<[PeerInfo]>({ number: '+15551234567' });
+	expect(toggleWidget).toHaveBeenCalledWith<[PeerInfo]>({ external: true, number: '+15551234567' });
 	expect(selectPeer).not.toHaveBeenCalled();
 });
 
@@ -96,7 +96,7 @@ it('sets the number without re-toggling when the widget is already open and idle
 
 	bridge.fire('5551234567');
 
-	expect(selectPeer).toHaveBeenCalledWith<[PeerInfo]>({ number: '5551234567' });
+	expect(selectPeer).toHaveBeenCalledWith<[PeerInfo]>({ external: true, number: '5551234567' });
 	expect(toggleWidget).not.toHaveBeenCalled();
 });
 
@@ -123,7 +123,7 @@ it('applies a number delivered before the widget settles into an idle state', ()
 
 	bridge.fire('5551234567');
 
-	expect(toggleWidget).toHaveBeenCalledWith<[PeerInfo]>({ number: '5551234567' });
+	expect(toggleWidget).toHaveBeenCalledWith<[PeerInfo]>({ external: true, number: '5551234567' });
 });
 
 it('does not re-apply the number after it has been handled', () => {

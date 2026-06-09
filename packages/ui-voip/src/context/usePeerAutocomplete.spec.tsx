@@ -142,7 +142,7 @@ describe('hook', () => {
 	describe('external number sync', () => {
 		it('should reflect peerInfo.number in the filter (deeplink-forwarded number)', () => {
 			mockGetAutocompleteOptions.mockResolvedValue([]);
-			const peerInfo: PeerInfo = { number: '312312313123' };
+			const peerInfo: PeerInfo = { external: true, number: '312312313123' };
 
 			const { result } = renderHook(() => usePeerAutocomplete(mockOnSelectPeer, peerInfo), {
 				wrapper: appRoot(),
@@ -153,7 +153,7 @@ describe('hook', () => {
 
 		it('should not touch the filter when peerInfo has a userId', () => {
 			mockGetAutocompleteOptions.mockResolvedValue([]);
-			const peerInfo: PeerInfo = { userId: 'user1', displayName: 'User 1' };
+			const peerInfo: PeerInfo = { external: false, userId: 'user1', displayName: 'User 1' };
 
 			const { result } = renderHook(() => usePeerAutocomplete(mockOnSelectPeer, peerInfo), {
 				wrapper: appRoot(),
@@ -179,7 +179,7 @@ describe('hook', () => {
 
 		it('should preserve manual typing while peerInfo is unchanged', () => {
 			mockGetAutocompleteOptions.mockResolvedValue([]);
-			const peerInfo: PeerInfo = { number: '111' };
+			const peerInfo: PeerInfo = { external: true, number: '111' };
 
 			const { result, rerender } = renderHook(({ peerInfo }) => usePeerAutocomplete(mockOnSelectPeer, peerInfo), {
 				wrapper: appRoot(),
@@ -202,7 +202,7 @@ describe('hook', () => {
 	describe('number peer edit sync', () => {
 		it('should re-select the number peer when the prefilled filter is manually edited', () => {
 			mockGetAutocompleteOptions.mockResolvedValue([]);
-			const peerInfo: PeerInfo = { number: '111' };
+			const peerInfo: PeerInfo = { external: true, number: '111' };
 
 			const { result } = renderHook(() => usePeerAutocomplete(mockOnSelectPeer, peerInfo), {
 				wrapper: appRoot(),
@@ -213,12 +213,12 @@ describe('hook', () => {
 			});
 
 			expect(result.current.filter).toBe('222');
-			expect(mockOnSelectPeer).toHaveBeenCalledWith({ number: '222' });
+			expect(mockOnSelectPeer).toHaveBeenCalledWith({ external: true, number: '222' });
 		});
 
 		it('should re-select the number peer when editing via the keypad', () => {
 			mockGetAutocompleteOptions.mockResolvedValue([]);
-			const peerInfo: PeerInfo = { number: '11' };
+			const peerInfo: PeerInfo = { external: true, number: '11' };
 
 			const { result } = renderHook(() => usePeerAutocomplete(mockOnSelectPeer, peerInfo), {
 				wrapper: appRoot(),
@@ -229,12 +229,12 @@ describe('hook', () => {
 			});
 
 			expect(result.current.filter).toBe('119');
-			expect(mockOnSelectPeer).toHaveBeenCalledWith({ number: '119' });
+			expect(mockOnSelectPeer).toHaveBeenCalledWith({ external: true, number: '119' });
 		});
 
 		it('should not re-select the peer when editing the filter for a userId peer', () => {
 			mockGetAutocompleteOptions.mockResolvedValue([]);
-			const peerInfo: PeerInfo = { userId: 'user1', displayName: 'User 1' };
+			const peerInfo: PeerInfo = { external: false, userId: 'user1', displayName: 'User 1' };
 
 			const { result } = renderHook(() => usePeerAutocomplete(mockOnSelectPeer, peerInfo), {
 				wrapper: appRoot(),

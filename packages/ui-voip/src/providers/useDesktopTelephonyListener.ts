@@ -49,7 +49,7 @@ export const useDesktopTelephonyListener = ({ sessionState, toggleWidget, select
 			return;
 		}
 
-		const peerInfo: PeerInfo = { number: pendingNumber };
+		const peerInfo: PeerInfo = { external: true, number: pendingNumber };
 
 		switch (sessionState.state) {
 			case 'closed':

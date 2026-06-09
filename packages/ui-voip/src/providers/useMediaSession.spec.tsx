@@ -49,7 +49,7 @@ describe('useMediaSession', () => {
 		const { result } = renderHook(() => useMediaSession(fake.instance));
 
 		act(() => {
-			result.current.toggleWidget({ number: '051999597507' });
+			result.current.toggleWidget({ external: true, number: '051999597507' });
 		});
 
 		expect(result.current.sessionState.state).toBe('new');
@@ -59,7 +59,7 @@ describe('useMediaSession', () => {
 		});
 
 		expect(result.current.sessionState.state).toBe('new');
-		expect(result.current.sessionState.peerInfo).toEqual({ number: '051999597507' });
+		expect(result.current.sessionState.peerInfo).toEqual({ external: true, number: '051999597507' });
 	});
 
 	it('keeps the widget closed when a no-call emit arrives while idle', () => {
@@ -81,7 +81,7 @@ describe('useMediaSession', () => {
 		});
 
 		act(() => {
-			result.current.toggleWidget({ number: '051999597507' });
+			result.current.toggleWidget({ external: true, number: '051999597507' });
 		});
 
 		expect(result.current.sessionState.state).toBe('new');
