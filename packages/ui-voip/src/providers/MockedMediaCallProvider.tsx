@@ -158,6 +158,8 @@ const MockedMediaCallProvider = ({
 		onSelectPeer,
 		streams: {},
 		onToggleScreenSharing: () => undefined,
+		isRequestingVideoCall: false,
+		onRequestVideoCall: () => undefined,
 	};
 
 	const instanceContextValue = {

@@ -12,6 +12,8 @@ export type MediaCallStreams = {
 
 type MediaCallViewContextValue = {
 	sessionState: SessionState;
+	isRequestingVideoCall: boolean;
+	onRequestVideoCall: () => void;
 	onClickDirectMessage?: () => void;
 	onMute: () => void;
 	onHold: () => void;
@@ -46,6 +48,8 @@ const defaultSessionState: SessionState = {
 
 export const defaultMediaCallContextValue: MediaCallViewContextValue = {
 	sessionState: defaultSessionState,
+	isRequestingVideoCall: false,
+	onRequestVideoCall: () => undefined,
 	onMute: () => undefined,
 	onHold: () => undefined,
 	onDeviceChange: () => undefined,
