@@ -5896,6 +5896,8 @@
   "VoIP_TeamCollab_Screen_Sharing_Enabled": "Screen sharing",
   "VoIP_TeamCollab_Screen_Sharing_Enabled_Description": "Allow users to share their screen during voice calls.",
   "VoIP_TeamCollab_Screen_Sharing_Enabled_Alert": "Screen sharing is currently in beta.",
+  "VoIP_TeamCollab_Video_Escalation_Enabled": "Video escalation",
+  "VoIP_TeamCollab_Video_Escalation_Enabled_Description": "Allow users to escalate voice calls to a video conference.",
   "VoIP_TeamCollab_Internal_SIP_Beta_Alert": "Routing of internal calls through SIP is in beta and is not recommended for production use.",
   "VoIP_TeamCollab_Drachtio_Host": "Drachtio Host",
   "VoIP_TeamCollab_Drachtio_Port": "Drachtio Port",

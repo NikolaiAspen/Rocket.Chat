@@ -17,6 +17,13 @@ export function addSettings(): Promise<void> {
 						i18nDescription: 'VoIP_TeamCollab_Screen_Sharing_Enabled_Description',
 					});
 
+					await this.add('VoIP_TeamCollab_Video_Escalation_Enabled', false, {
+						type: 'boolean',
+						public: true,
+						invalidValue: false,
+						i18nDescription: 'VoIP_TeamCollab_Video_Escalation_Enabled_Description',
+					});
+
 					await this.add('VoIP_TeamCollab_Mobile_Ringing_Enabled', false, {
 						type: 'boolean',
 						public: true,

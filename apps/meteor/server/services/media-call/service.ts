@@ -427,6 +427,10 @@ export class MediaCallService extends ServiceClassInternal implements IMediaCall
 			return settings.get<boolean>('VoIP_TeamCollab_Screen_Sharing_Enabled') ?? false;
 		}
 
+		if (feature === 'video-conference') {
+			return settings.get<boolean>('VoIP_TeamCollab_Video_Escalation_Enabled') ?? false;
+		}
+
 		return true;
 	}
 

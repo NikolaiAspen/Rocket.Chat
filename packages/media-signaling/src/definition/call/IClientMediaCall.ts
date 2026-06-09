@@ -10,7 +10,7 @@ import type { CallActorType } from './common';
 
 export type CallService = 'webrtc';
 
-export const callFeatureList = ['audio', 'screen-share', 'transfer', 'hold'] as const;
+export const callFeatureList = ['audio', 'screen-share', 'transfer', 'hold', 'video-conference'] as const;
 
 export type CallFeature = (typeof callFeatureList)[number];
 
