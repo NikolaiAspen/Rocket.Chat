@@ -55,7 +55,8 @@ export type CallNotification =
 	| 'accepted' // notify that the call has been accepted by both actors
 	| 'active' // notify that call activity was confirmed
 	| 'hangup' // notify that the call is over;
-	| 'trying'; // notify that the other client is connecting but still need more time
+	| 'trying' // notify that the other client is connecting but still need more time
+	| 'video-conference-ready'; // notify that a video conference has been created for this call
 
 export type CallRejectedReason =
 	| 'invalid-call-id' // the call id can't be used for a new call
@@ -108,4 +109,5 @@ export interface IClientMediaCall {
 	readonly localParticipant: IClientMediaCallLocalParticipant;
 	readonly remoteParticipants: IClientMediaCallRemoteParticipant[];
 	readonly participants: AnyClientMediaCallParticipant[];
+	readonly escalated: boolean;
 }

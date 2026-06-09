@@ -107,6 +107,12 @@ export class ClientMediaCall implements IClientMediaCall {
 		return this._service;
 	}
 
+	private _escalated: boolean;
+
+	public get escalated(): boolean {
+		return this._escalated;
+	}
+
 	public get signed(): boolean {
 		return ['signed', 'pre-signed', 'self-signed'].includes(this.contractState);
 	}
@@ -271,6 +277,7 @@ export class ClientMediaCall implements IClientMediaCall {
 			features: this.features,
 			state: this.state,
 			transferredBy: this.transferredBy,
+			escalated: this._escalated,
 			activeTimestamp: this.activeTimestamp,
 			tempCallId: this.tempCallId,
 			hidden: this.hidden,
@@ -321,6 +328,7 @@ export class ClientMediaCall implements IClientMediaCall {
 		this._remoteHeld = false;
 		this._remoteMute = false;
 		this._flags = [];
+		this._escalated = false;
 		this.selfContact = null;
 		this.localParticipant = this.createLocalParticipantProxy();
 		this.remoteParticipant = null;
@@ -1172,6 +1180,11 @@ export class ClientMediaCall implements IClientMediaCall {
 
 			case 'hangup':
 				return this.flagAsEnded('remote');
+
+			case 'video-conference-ready':
+				this._escalated = true;
+				this.emitter.emit('videoConferenceReady');
+				break;
 		}
 	}
 

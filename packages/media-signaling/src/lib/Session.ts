@@ -25,6 +25,7 @@ export type MediaSignalingEvents = {
 	hiddenCall: void;
 	registered: { activeCalls: IClientMediaCall['callId'][] };
 	outOfSync: { missingCalls: IClientMediaCall['callId'][] };
+	videoConferenceReady: void;
 };
 
 export type MediaSignalingSessionConfig = {
@@ -625,6 +626,10 @@ export class MediaSignalingSession extends Emitter<MediaSignalingEvents> {
 		call.emitter.on('ended', () => this.onEndedCall(call));
 		call.emitter.on('screenShareRequestChange', (requested: boolean) => this.onScreenShareRequestChange(call, requested));
 		call.emitter.on('streamChange', () => this.onSessionStateChange());
+		call.emitter.on('videoConferenceReady', () => {
+			this.emit('videoConferenceReady');
+			this.onSessionStateChange();
+		});
 
 		return call;
 	}

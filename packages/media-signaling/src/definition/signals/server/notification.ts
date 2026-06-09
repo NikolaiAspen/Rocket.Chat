@@ -13,4 +13,7 @@ export type ServerMediaSignalNotification = {
 	signedContractId?: string;
 
 	features?: CallFeature[];
+
+	/** Present when notification is 'video-conference-ready', contains the ID of the created video conference */
+	videoConferenceId?: string;
 };

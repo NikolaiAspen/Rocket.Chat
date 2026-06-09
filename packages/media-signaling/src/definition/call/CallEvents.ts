@@ -34,4 +34,7 @@ export type CallEvents = {
 
 	/* Triggered when any of the streams or tracks have changed */
 	streamChange: void;
+
+	/* Triggered when a video conference has been created for this call */
+	videoConferenceReady: void;
 };

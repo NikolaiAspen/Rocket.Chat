@@ -142,6 +142,22 @@ export class MediaCallService extends ServiceClassInternal implements IMediaCall
 		return signals;
 	}
 
+	public async notifyVideoConferenceReady(callId: string, videoConferenceId: string): Promise<void> {
+		const call = await MediaCalls.findOneById(callId);
+		if (!call) {
+			return;
+		}
+
+		for (const uid of call.uids) {
+			void this.sendSignal(uid, {
+				type: 'notification',
+				callId,
+				notification: 'video-conference-ready',
+				videoConferenceId,
+			});
+		}
+	}
+
 	private async saveCallToHistory(callId: IMediaCall['_id']): Promise<void> {
 		logger.info({ msg: 'saving media call to history', callId });
 

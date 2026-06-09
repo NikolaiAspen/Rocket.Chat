@@ -43,6 +43,7 @@ import type { SubscriptionsEndpoints } from './v1/subscriptionsEndpoints';
 import type { TeamsEndpoints } from './v1/teams';
 import type { UsersEndpoints } from './v1/users';
 import type { VideoConferenceEndpoints } from './v1/videoConference';
+import type { MediaCallsEndpoints } from './v1/mediaCalls';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export interface Endpoints
@@ -77,6 +78,7 @@ export interface Endpoints
 		IntegrationsEndpoints,
 		IntegrationHooksEndpoints,
 		VideoConferenceEndpoints,
+		MediaCallsEndpoints,
 		InvitesEndpoints,
 		E2eEndpoints,
 		AssetsEndpoints,

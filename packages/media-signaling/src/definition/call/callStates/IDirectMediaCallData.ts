@@ -14,6 +14,8 @@ export interface IDirectMediaCallData {
 
 	readonly transferredBy: CallContact | null;
 
+	readonly escalated?: boolean;
+
 	readonly activeTimestamp?: Date;
 
 	readonly tempCallId: string;

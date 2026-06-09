@@ -32,6 +32,7 @@ interface IBaseSession {
 	startedAt?: Date;
 	hidden: boolean;
 	supportedFeatures: readonly CallFeature[];
+	escalated?: boolean;
 }
 
 interface IEmptySession extends IBaseSession {

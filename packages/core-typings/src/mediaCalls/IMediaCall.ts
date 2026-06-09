@@ -68,4 +68,7 @@ export interface IMediaCall extends IRocketChatRecord {
 
 	/** The list of features that may be used in this call. Values are final once the call is accepted. */
 	features: string[];
+
+	/** When set, this call has been escalated to a video conference. Contains the ID of the created video conference. */
+	escalated?: string;
 }

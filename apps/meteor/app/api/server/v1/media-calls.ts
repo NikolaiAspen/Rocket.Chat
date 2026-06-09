@@ -210,3 +210,108 @@ declare module '@rocket.chat/rest-typings' {
 	// eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-empty-interface
 	interface Endpoints extends MediaCallsStateEndpoints {}
 }
+
+type MediaCallsConferenceParams = {
+	callId: string;
+};
+
+const MediaCallsConferenceSchema: import('ajv').JSONSchemaType<MediaCallsConferenceParams> = {
+	type: 'object',
+	properties: {
+		callId: { type: 'string' },
+	},
+	required: ['callId'],
+	additionalProperties: false,
+};
+
+export const isMediaCallsConferenceProps = ajv.compile<MediaCallsConferenceParams>(MediaCallsConferenceSchema);
+
+const mediaCallsConferenceEndpoint = API.v1.post(
+	'media-calls.escalate',
+	{
+		response: {
+			200: ajv.compile<{ url: string }>({
+				additionalProperties: false,
+				type: 'object',
+				properties: {
+					url: { type: 'string' },
+					success: { type: 'boolean' },
+				},
+				required: ['url', 'success'],
+			}),
+			400: validateBadRequestErrorResponse,
+			401: validateUnauthorizedErrorResponse,
+			403: validateForbiddenErrorResponse,
+			404: validateNotFoundErrorResponse,
+		},
+		body: isMediaCallsConferenceProps,
+		authRequired: true,
+	},
+	async function action() {
+		const { callId } = this.bodyParams;
+		await new Promise((resolve) => setTimeout(resolve, 5000));
+		await MediaCall.notifyVideoConferenceReady(callId, 'video-id-1234');
+		return API.v1.success({ url: `/video-conf/pexip/${callId}` });
+	},
+);
+
+type MediaCallsConferenceEndpoints = ExtractRoutesFromAPI<typeof mediaCallsConferenceEndpoint>;
+
+declare module '@rocket.chat/rest-typings' {
+	// eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-empty-interface
+	interface Endpoints extends MediaCallsConferenceEndpoints {}
+}
+
+type MediaCallsEscalationInfoParams = {
+	callId: string;
+};
+
+const MediaCallsEscalationInfoSchema: import('ajv').JSONSchemaType<MediaCallsEscalationInfoParams> = {
+	type: 'object',
+	properties: {
+		callId: { type: 'string' },
+	},
+	required: ['callId'],
+	additionalProperties: false,
+};
+
+export const isMediaCallsConferenceInfoProps = ajv.compile<MediaCallsEscalationInfoParams>(MediaCallsEscalationInfoSchema);
+
+const mediaCallsConferenceInfoEndpoint = API.v1.get(
+	'media-calls.conference-info',
+	{
+		response: {
+			200: ajv.compile<{ pexipUrl: string; roomId: string }>({
+				additionalProperties: false,
+				type: 'object',
+				properties: {
+					pexipUrl: { type: 'string' },
+					roomId: { type: 'string' },
+					success: { type: 'boolean' },
+				},
+				required: ['pexipUrl', 'roomId', 'success'],
+			}),
+			400: validateBadRequestErrorResponse,
+			401: validateUnauthorizedErrorResponse,
+			403: validateForbiddenErrorResponse,
+			404: validateNotFoundErrorResponse,
+		},
+		query: isMediaCallsConferenceInfoProps,
+		authRequired: true,
+	},
+	async function action() {
+		const { callId } = this.queryParams;
+		const call = await MediaCalls.findOneById(callId);
+		if (!call?.uids.includes(this.userId)) {
+			return API.v1.failure('not-found');
+		}
+		return API.v1.success({ pexipUrl: 'https://rocket.chat', roomId: '1234' });
+	},
+);
+
+type MediaCallsConferenceInfoEndpoints = ExtractRoutesFromAPI<typeof mediaCallsConferenceInfoEndpoint>;
+
+declare module '@rocket.chat/rest-typings' {
+	// eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-empty-interface
+	interface Endpoints extends MediaCallsConferenceInfoEndpoints {}
+}
