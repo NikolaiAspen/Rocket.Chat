@@ -5898,6 +5898,7 @@
   "VoIP_TeamCollab_Screen_Sharing_Enabled": "Screen sharing",
   "VoIP_TeamCollab_Screen_Sharing_Enabled_Description": "Allow users to share their screen during voice calls.",
   "VoIP_TeamCollab_Screen_Sharing_Enabled_Alert": "Screen sharing is currently in beta.",
+  "Screen_sharing_stopped_video_escalation": "Screen sharing was stopped because the call was escalated to a video call",
   "VoIP_TeamCollab_Video_Escalation_Enabled": "Video escalation",
   "VoIP_TeamCollab_Video_Escalation_Enabled_Description": "Allow users to escalate voice calls to a video conference.",
   "VoIP_TeamCollab_Internal_SIP_Beta_Alert": "Routing of internal calls through SIP is in beta and is not recommended for production use.",

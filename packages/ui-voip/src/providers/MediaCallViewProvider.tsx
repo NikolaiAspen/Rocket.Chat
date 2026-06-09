@@ -232,6 +232,27 @@ const MediaCallViewProvider = ({ children }: MediaCallViewProviderProps) => {
 		});
 	}, [instance, onChangePosition]);
 
+	useEffect(() => {
+		return instance?.on('videoConferenceReady', () => {
+			const state = instance.getState();
+
+			if (!state?.confirmed) {
+				return;
+			}
+
+			if (!state?.call.hasScreenVideoTrack()) {
+				return;
+			}
+
+			try {
+				state.call.requestScreenShare(false);
+				dispatchToastMessage({ type: 'info', message: t('Screen_sharing_stopped_video_escalation') });
+			} catch (error) {
+				console.error('Error stopping screen share', error);
+			}
+		});
+	}, [instance, dispatchToastMessage, t]);
+
 	const contextValue = {
 		sessionState,
 		isRequestingVideoCall,
