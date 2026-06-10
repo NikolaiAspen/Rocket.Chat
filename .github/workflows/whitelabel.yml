@@ -1,0 +1,68 @@
+name: Whitelabel Docker image
+
+on:
+  push:
+    branches: ['brand/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set swap space
+        uses: pierotofy/set-swap-space@49819abfb41bd9b44fb781159c033dba90353a7c # v1.0
+        with:
+          swap-size-gb: 4
+
+      - uses: ./.github/actions/setup-node
+        with:
+          cache-modules: true
+          install: true
+
+      - name: Install Meteor
+        run: curl https://install.meteor.com | sed s/--progress-bar/-sL/g | /bin/sh
+
+      - uses: rharkor/caching-for-turbo@00a0515f175df9fd2e15c4560144ad5fdbebb0c7 # v2.3.13
+
+      - name: Build packages
+        run: yarn build
+
+      - name: Build Meteor bundle
+        env:
+          METEOR_PROFILE: 1000
+          BABEL_ENV: production
+        run: yarn workspace @rocket.chat/meteor run build:ci
+
+      - name: Prepare Docker context
+        run: |
+          mkdir -p /tmp/build
+          mv /tmp/dist/bundle /tmp/build/bundle
+          find /tmp/build/bundle -type f -name '*.d.ts' -delete
+
+      - name: Resolve image tag
+        id: tag
+        run: echo "version=$(node -p "require('./apps/meteor/package.json').version")-msn.${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        run: |
+          docker buildx build \
+            -f apps/meteor/.docker/Dockerfile.alpine \
+            --platform linux/amd64 \
+            -t "ghcr.io/nikolaiaspen/msn-rocketchat:${{ steps.tag.outputs.version }}" \
+            -t ghcr.io/nikolaiaspen/msn-rocketchat:latest \
+            --push \
+            /tmp/build
