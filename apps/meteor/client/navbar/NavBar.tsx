@@ -3,14 +3,14 @@ import { useLayout } from '@rocket.chat/ui-contexts';
 
 import NavBarControlsSection from './NavBarControls/NavBarControlsSection';
 import NavBarNavigation from './NavBarNavigation';
-import NavBarPagesSection from './NavBarPagesSection';
 
+// brand: side-ikonene (Home/Directory/Admin) er flyttet til den vertikale
+// railen (BrandRail); topbaren beholder søk og brukerkontroller.
 const NavBar = () => {
 	const { navbar } = useLayout();
 
 	return (
 		<NavBarComponent aria-label='header'>
-			{!navbar.searchExpanded && <NavBarPagesSection />}
 			<NavBarNavigation />
 			{!navbar.searchExpanded && <NavBarControlsSection />}
 		</NavBarComponent>
