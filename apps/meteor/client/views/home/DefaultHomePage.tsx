@@ -7,10 +7,7 @@ import HomePageHeader from './HomePageHeader';
 import AddUsersCard from './cards/AddUsersCard';
 import CreateChannelsCard from './cards/CreateChannelsCard';
 import CustomContentCard from './cards/CustomContentCard';
-import DesktopAppsCard from './cards/DesktopAppsCard';
-import DocumentationCard from './cards/DocumentationCard';
 import JoinRoomsCard from './cards/JoinRoomsCard';
-import MobileAppsCard from './cards/MobileAppsCard';
 
 const CREATE_CHANNEL_PERMISSIONS = ['create-c', 'create-p'];
 
@@ -38,9 +35,6 @@ const DefaultHomePage = (): ReactElement => {
 						{canAddUsers && <AddUsersCard />}
 						{canCreateChannel && <CreateChannelsCard />}
 						<JoinRoomsCard />
-						<MobileAppsCard />
-						<DesktopAppsCard />
-						<DocumentationCard />
 						{(isAdmin || (isCustomContentVisible && !isCustomContentBodyEmpty)) && <CustomContentCard />}
 					</CardGroup>
 				</Box>

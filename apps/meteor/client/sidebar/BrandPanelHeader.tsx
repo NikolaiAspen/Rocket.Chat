@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 // jf. designsystemets samtaleliste (340px-panelet).
 const styles: Record<string, CSSProperties> = {
 	wrap: { padding: '14px 16px 10px', flexShrink: 0 },
-	title: { fontSize: '18px', fontWeight: 700, color: '#02405a', marginBottom: '10px' },
+	title: { fontSize: '18px', fontWeight: 700, color: '#02405a', marginBottom: '10px', textTransform: 'capitalize' },
 	input: {
 		width: '100%',
 		boxSizing: 'border-box',
