@@ -25,7 +25,7 @@ const DefaultHomePage = (): ReactElement => {
 			<HomePageHeader />
 			<PageScrollableContent>
 				<Box is='h2' fontScale='h1' mb={20}>
-					{t('Welcome_to_workspace', { Site_Name: workspaceName || 'Rocket.Chat' })}
+					{t('Welcome_to_workspace', { Site_Name: workspaceName || 'Dualog Workspace' })}
 				</Box>
 				<Box is='h3' fontScale='h3' mb={16}>
 					{t('Some_ideas_to_get_you_started')}
@@ -37,6 +37,15 @@ const DefaultHomePage = (): ReactElement => {
 						<JoinRoomsCard />
 						{(isAdmin || (isCustomContentVisible && !isCustomContentBodyEmpty)) && <CustomContentCard />}
 					</CardGroup>
+					{/* brand: fast velkomstblokk — designet bor i koden, ikke i settings-HTML */}
+					<Box mbs={24} p={24} borderRadius='x16' bg='surface-light' maxWidth='x720'>
+						<Box is='h3' fontScale='h4' mbe={8}>
+							Velkommen!
+						</Box>
+						<Box fontScale='p2' color='hint'>
+							Sikker samhandling for europeiske bedrifter. Dataene dine lagres i Europa og deles aldri med tredjeparter.
+						</Box>
+					</Box>
 				</Box>
 			</PageScrollableContent>
 		</Page>

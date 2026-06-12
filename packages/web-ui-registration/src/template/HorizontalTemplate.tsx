@@ -2,8 +2,19 @@ import { useSetting, useAssetWithDarkModePath } from '@rocket.chat/ui-contexts';
 import type { CSSProperties, ReactElement, ReactNode } from 'react';
 
 import LoginSwitchLanguageFooter from '../components/LoginSwitchLanguageFooter';
-import LoginTerms from '../components/LoginTerms';
 import { RegisterTitle } from '../components/RegisterTitle';
+
+// brand: petrol primærknapper/lenker også på login-flaten (egen DOM-gren,
+// MainLayout-temaet gjelder ikke her).
+const brandLoginTheme = `
+:root:root {
+	--rcx-color-button-background-primary-default: #02405a;
+	--rcx-color-button-background-primary-hover: #03567a;
+	--rcx-color-button-background-primary-press: #022f42;
+	--rcx-color-button-background-primary-focus: #02405a;
+	--rcx-color-font-info: #02405a;
+}
+`;
 
 // brand: egen login-layout — sentrert kort på mint-gradient i stedet for
 // standard to-kolonne-wizard. Skjemaet (children) gjengis uendret inni kortet.
@@ -52,13 +63,17 @@ const HorizontalTemplate = ({ children }: { children: ReactNode }): ReactElement
 
 	return (
 		<div style={styles.page}>
+			<style>{brandLoginTheme}</style>
 			{!hideLogo && customLogo && <img style={styles.logo} src={customLogo} alt='Logo' />}
 			<div style={styles.title}>
 				<RegisterTitle />
 			</div>
 			<div style={styles.card}>{children}</div>
 			<div style={styles.footer}>
-				<LoginTerms />
+				<div style={{ fontSize: '12px', color: '#5d8596', lineHeight: 1.5 }}>
+					Ved å fortsette godtar du <a href='/terms-of-service'>vilkårene for bruk</a> og{' '}
+					<a href='/privacy-policy'>personvernreglene</a>. Dataene dine lagres i EU/EØS.
+				</div>
 				<LoginSwitchLanguageFooter />
 			</div>
 		</div>

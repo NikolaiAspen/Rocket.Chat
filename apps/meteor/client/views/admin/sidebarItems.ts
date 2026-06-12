@@ -1,5 +1,3 @@
-import { defaultFeaturesPreview } from '@rocket.chat/ui-client';
-
 import { hasPermission, hasAtLeastOnePermission, hasAllPermission } from '../../../app/authorization/client';
 import { createSidebarItems } from '../../lib/createSidebarItems';
 
@@ -15,18 +13,7 @@ export const {
 		icon: 'info-circled',
 		permissionGranted: (): boolean => hasPermission('view-statistics'),
 	},
-	{
-		href: '/admin/subscription',
-		i18nLabel: 'Subscription',
-		icon: 'card',
-		permissionGranted: (): boolean => hasPermission('manage-cloud'),
-	},
-	{
-		href: '/admin/engagement/users',
-		i18nLabel: 'Engagement',
-		icon: 'dashboard',
-		permissionGranted: (): boolean => hasPermission('view-engagement-dashboard'),
-	},
+	// brand: Subscription (Rocket.Chat Cloud) og Engagement (EE) er fjernet.
 	{
 		href: '/admin/moderation',
 		i18nLabel: 'Moderation',
@@ -64,32 +51,7 @@ export const {
 		icon: 'user-lock',
 		permissionGranted: (): boolean => hasAtLeastOnePermission(['access-permissions', 'access-setting-permissions']),
 	},
-	{
-		href: '/admin/ABAC',
-		i18nLabel: 'ABAC',
-		icon: 'team-lock',
-		permissionGranted: (): boolean =>
-			hasPermission('abac-management') &&
-			hasAtLeastOnePermission([
-				'manage-abac-admin-settings',
-				'manage-abac-admin-room-attributes',
-				'manage-abac-admin-rooms',
-				'view-abac-admin-audit',
-			]),
-	},
-	{
-		href: '/admin/device-management',
-		i18nLabel: 'Device_Management',
-		icon: 'mobile',
-		permissionGranted: (): boolean => hasPermission('view-device-management'),
-	},
-	{
-		href: '/admin/email-inboxes',
-		i18nLabel: 'Email_Inboxes',
-		icon: 'mail',
-		tag: 'Alpha',
-		permissionGranted: (): boolean => hasPermission('manage-email-inbox'),
-	},
+	// brand: ABAC (EE), Device Management (EE) og Email Inboxes (alpha/omnichannel) er fjernet.
 	{
 		href: '/admin/mailer',
 		icon: 'mail',
@@ -121,12 +83,6 @@ export const {
 		permissionGranted: (): boolean => hasPermission('run-import'),
 	},
 	{
-		href: '/admin/analytic-reports',
-		i18nLabel: 'Reports',
-		icon: 'post',
-		permissionGranted: (): boolean => hasPermission('view-logs'),
-	},
-	{
 		href: '/admin/sounds',
 		i18nLabel: 'Sounds',
 		icon: 'volume',
@@ -137,12 +93,6 @@ export const {
 		i18nLabel: 'Emoji',
 		icon: 'emoji',
 		permissionGranted: (): boolean => hasPermission('manage-emoji'),
-	},
-	{
-		href: '/admin/feature-preview',
-		i18nLabel: 'Feature_preview',
-		icon: 'flask',
-		permissionGranted: () => defaultFeaturesPreview?.length > 0,
 	},
 	{
 		href: '/admin/settings',
