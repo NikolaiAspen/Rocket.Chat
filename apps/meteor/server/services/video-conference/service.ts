@@ -198,12 +198,17 @@ export class VideoConfService extends ServiceClassInternal implements IVideoConf
 			}
 		}
 
-		const blocks = await (await this.getProviderManager()).getVideoConferenceInfo(call.providerName, call, user || undefined).catch((e) => {
-			throw new Error(e);
-		});
+		// brand: kjerne-Jitsi-leverandøren bruker standard info-blokken under.
+		if (videoConfProviders.getProviderAppId(call.providerName) !== 'core') {
+			const blocks = await (await this.getProviderManager())
+				.getVideoConferenceInfo(call.providerName, call, user || undefined)
+				.catch((e) => {
+					throw new Error(e);
+				});
 
-		if (blocks?.length) {
-			return blocks as UiKit.ModalSurfaceLayout;
+			if (blocks?.length) {
+				return blocks as UiKit.ModalSurfaceLayout;
+			}
 		}
 
 		return [
@@ -577,6 +582,12 @@ export class VideoConfService extends ServiceClassInternal implements IVideoConf
 	}
 
 	private async validateProvider(providerName: string): Promise<void> {
+		// brand: kjerne-Jitsi-leverandøren er alltid konfigurert (innstillinger har
+		// defaults), og går ikke via apps-engine.
+		if (videoConfProviders.getProviderAppId(providerName) === 'core') {
+			return;
+		}
+
 		const manager = await this.getProviderManager();
 		const configured = await manager.isFullyConfigured(providerName).catch(() => false);
 		if (!configured) {
@@ -1019,6 +1030,11 @@ export class VideoConfService extends ServiceClassInternal implements IVideoConf
 			discussionRid: call.discussionRid,
 		};
 
+		// brand: kjerne-Jitsi-leverandøren tilpasser ikke URL-en per bruker.
+		if (videoConfProviders.getProviderAppId(call.providerName) === 'core') {
+			return call.url || this.generateCoreJitsiUrl(call);
+		}
+
 		const userData = user && {
 			_id: user._id,
 			username: user.username as string,
@@ -1043,6 +1059,11 @@ export class VideoConfService extends ServiceClassInternal implements IVideoConf
 			throw new Error('video-conf-provider-unavailable');
 		}
 
+		// brand: kjerne-Jitsi-leverandøren har ingen app-livssyklus-hooks.
+		if (videoConfProviders.getProviderAppId(call.providerName) === 'core') {
+			return;
+		}
+
 		return (await this.getProviderManager()).onNewVideoConference(call.providerName, call);
 	}
 
@@ -1061,6 +1082,11 @@ export class VideoConfService extends ServiceClassInternal implements IVideoConf
 			throw new Error('video-conf-provider-unavailable');
 		}
 
+		// brand: kjerne-Jitsi-leverandøren har ingen app-livssyklus-hooks.
+		if (videoConfProviders.getProviderAppId(call.providerName) === 'core') {
+			return;
+		}
+
 		return (await this.getProviderManager()).onVideoConferenceChanged(call.providerName, call);
 	}
 
@@ -1077,6 +1103,11 @@ export class VideoConfService extends ServiceClassInternal implements IVideoConf
 
 		if (!videoConfProviders.isProviderAvailable(call.providerName)) {
 			throw new Error('video-conf-provider-unavailable');
+		}
+
+		// brand: kjerne-Jitsi-leverandøren har ingen app-livssyklus-hooks.
+		if (videoConfProviders.getProviderAppId(call.providerName) === 'core') {
+			return;
 		}
 
 		return (await this.getProviderManager()).onUserJoin(call.providerName, call, user);
