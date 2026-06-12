@@ -206,7 +206,8 @@ const SetupWizardProvider = ({ children }: { children: ReactElement }): ReactEle
 			saveWorkspaceData,
 			saveOrganizationData,
 			completeSetupWizard,
-			maxSteps: data.serverAlreadyRegistered ? 2 : 4,
+			// brand: cloud-stegene er fjernet — wizarden er alltid to steg.
+			maxSteps: 2,
 		}),
 		[
 			setupWizardData,

@@ -2,9 +2,8 @@ import type { ReactElement } from 'react';
 
 import { useSetupWizardContext } from './contexts/SetupWizardContext';
 import AdminInfoStep from './steps/AdminInfoStep';
-import CloudAccountConfirmation from './steps/CloudAccountConfirmation';
 import OrganizationInfoStep from './steps/OrganizationInfoStep';
-import RegisterServerStep from './steps/RegisterServerStep';
+import StandaloneCompletionStep from './steps/StandaloneCompletionStep';
 
 const SetupWizardPage = (): ReactElement => {
 	const { currentStep } = useSetupWizardContext();
@@ -14,10 +13,11 @@ const SetupWizardPage = (): ReactElement => {
 			return <AdminInfoStep />;
 		case 2:
 			return <OrganizationInfoStep />;
+		// brand: steg 3 (cloud-registrering) og 4 (cloud-bekreftelse) er fjernet —
+		// fullfører alltid frittstående.
 		case 3:
-			return <RegisterServerStep />;
 		case 4:
-			return <CloudAccountConfirmation />;
+			return <StandaloneCompletionStep />;
 
 		default:
 			throw new Error('Wrong wizard step');
