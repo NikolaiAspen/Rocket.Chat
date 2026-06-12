@@ -921,6 +921,12 @@ export class VideoConfService extends ServiceClassInternal implements IVideoConf
 			throw new Error('video-conf-provider-unavailable');
 		}
 
+		// brand: kjerne-Jitsi-leverandøren (appId 'core') genererer URL inline —
+		// ingen apps-engine, derfor ingen privat-app-grense i ren CE.
+		if (videoConfProviders.getProviderAppId(call.providerName) === 'core') {
+			return this.generateCoreJitsiUrl(call);
+		}
+
 		const title = isGroupVideoConference(call) ? call.title || (await this.getRoomName(call.rid)) : '';
 		const callData: VideoConfData = {
 			_id: call._id,
@@ -933,6 +939,17 @@ export class VideoConfService extends ServiceClassInternal implements IVideoConf
 		};
 
 		return (await this.getProviderManager()).generateUrl(call.providerName, callData);
+	}
+
+	// brand: bygger en Jitsi-møte-URL fra innstillinger. Rom-navnet er prefiks +
+	// call-id (unikt, ikke gjettbart). Domenet kan peke på selvhostet Jitsi i EU.
+	private generateCoreJitsiUrl(call: ExternalVideoConference): string {
+		const domain = settings.get<string>('VideoConf_Jitsi_Domain') || 'meet.jit.si';
+		const prefix = settings.get<string>('VideoConf_Jitsi_Room_Prefix') || 'DualogWorkspace';
+		const useSsl = settings.get<boolean>('VideoConf_Jitsi_SSL') ?? true;
+		const protocol = useSsl ? 'https' : 'http';
+		const room = `${prefix}${call._id}`;
+		return `${protocol}://${domain}/${room}`;
 	}
 
 	private async getCallTitleForUser(call: VideoConference, userId?: IUser['_id']): Promise<string> {

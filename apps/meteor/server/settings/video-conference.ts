@@ -2,9 +2,24 @@ import { settingsRegistry } from '../../app/settings/server';
 
 export const createVConfSettings = () =>
 	settingsRegistry.addGroup('Video_Conference', async function () {
-		await this.add('VideoConf_Default_Provider', '', {
+		await this.add('VideoConf_Default_Provider', 'jitsi', {
 			type: 'lookup',
 			lookupEndpoint: 'v1/video-conference.providers',
+			public: true,
+		});
+
+		// brand: innstillinger for kjerne-Jitsi-leverandøren. Domenet kan peke på
+		// selvhostet Jitsi i EU; default bruker den offentlige tjenesten.
+		await this.add('VideoConf_Jitsi_Domain', 'meet.jit.si', {
+			type: 'string',
+			public: true,
+		});
+		await this.add('VideoConf_Jitsi_Room_Prefix', 'DualogWorkspace', {
+			type: 'string',
+			public: true,
+		});
+		await this.add('VideoConf_Jitsi_SSL', true, {
+			type: 'boolean',
 			public: true,
 		});
 

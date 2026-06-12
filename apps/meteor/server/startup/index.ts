@@ -1,4 +1,5 @@
 import './appcache';
+import './brandVideoProvider';
 import './callbacks';
 import { startCronJobs } from './cron';
 import { ensureMessagesTextIndex } from './ensureMessagesTextIndex';
