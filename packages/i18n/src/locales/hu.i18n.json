@@ -4997,7 +4997,7 @@
   "registration.component.login.userNotFound": "A felhasználó nem található",
   "registration.component.resetPassword": "Jelszó visszaállítása",
   "registration.component.switchLanguage": "Átváltás <2>{{name}}</2>",
-  "registration.component.welcome": "Üdvözöljük a <1>Rocket.Chat</1> munkaterületén!",
+  "registration.component.welcome": "Üdvözöljük a {{siteName}} munkaterületén!",
   "registration.page.emailVerification.sent": "Ellenőrző e-mail elküldve, nézze meg a beérkezett üzeneteit.",
   "registration.page.emailVerification.subTitle": "Ez a kiszolgáló ellenőrzött e-mail-címeket igényel. Nézze meg az ellenőrzési hivatkozást a beérkező levelek mappában.",
   "registration.page.login.errors.AppUserNotAllowedToLogin": "Az alkalmazás felhasználóinak nem engedélyezett a közvetlen bejelentkezés.",

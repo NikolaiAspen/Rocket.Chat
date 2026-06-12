@@ -1,14 +1,14 @@
 {
-    "name": "RocketChat",
-    "description": "The Ultimate Open Source WebChat Platform",
+    "name": "Dualog Workspace",
+    "description": "Sikker samhandling for europeiske bedrifter",
     "launch_path": "/",
     "icons": {
         "192": "/assets/favicon_192.png",
         "512": "/assets/favicon_512.png"
     },
     "developer": {
-        "name": "Rocket.Chat",
-        "url": "https://rocket.chat/"
+        "name": "Dualog",
+        "url": "https://dualog.com/"
     },
     "fullscreen": "true",
     "chrome": {

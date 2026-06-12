@@ -18,11 +18,11 @@ export function useExampleData({
 			text: 'Example message',
 			attachments: [
 				{
-					title: 'Rocket.Chat',
-					title_link: 'https://rocket.chat',
-					text: 'Rocket.Chat, the best open source chat',
+					title: 'Dualog Workspace',
+					title_link: 'https://dualog.com',
+					text: 'Dualog Workspace — sikker samhandling for europeiske bedrifter',
 					image_url: imageUrl,
-					color: '#764FA5',
+					color: '#02405A',
 				},
 			],
 		};

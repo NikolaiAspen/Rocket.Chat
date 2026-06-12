@@ -66,7 +66,7 @@ export const createGeneralSettings = async () => {
 				public: true,
 			},
 		);
-		await this.add('Site_Name', 'Rocket.Chat', {
+		await this.add('Site_Name', 'Dualog Workspace', {
 			type: 'string',
 			public: true,
 			wizard: {
@@ -179,7 +179,9 @@ export const createGeneralSettings = async () => {
 			public: true,
 		});
 
-		await this.add('DeepLink_Url', 'https://go.rocket.chat', {
+		// brand: tom default — peker ikke på go.rocket.chat. Settes til egen
+		// deeplink-tjeneste når mobilapper finnes.
+		await this.add('DeepLink_Url', '', {
 			type: 'string',
 			public: true,
 		});

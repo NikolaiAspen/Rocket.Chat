@@ -976,7 +976,7 @@ export class VideoConfService extends ServiceClassInternal implements IVideoConf
 		}
 
 		const room = await Rooms.findOneById(call.rid);
-		return room?.fname || room?.name || 'Rocket.Chat';
+		return room?.fname || room?.name || settings.get<string>('Site_Name') || 'Dualog Workspace';
 	}
 
 	private async getCallTitle(call: VideoConference): Promise<string> {

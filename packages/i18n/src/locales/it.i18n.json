@@ -3218,7 +3218,7 @@
   "registration.component.login.incorrectPassword": "Password errata",
   "registration.component.login.userNotFound": "Utente non trovato",
   "registration.component.resetPassword": "Reimposta password",
-  "registration.component.welcome": "Benvenuti nello spazio di lavoro di <1>Rocket.Chat</1> ",
+  "registration.component.welcome": "Benvenuti nello spazio di lavoro di {{siteName}} ",
   "registration.page.guest.continueAsGuest": "Continua come ospite",
   "registration.page.login.errors.AppUserNotAllowedToLogin": "Gli utenti dell'app non possono accedere direttamente.",
   "registration.page.login.errors.wrongCredentials": "Utente non trovato o password sbagliata",

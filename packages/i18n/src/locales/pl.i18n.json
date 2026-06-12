@@ -5000,7 +5000,7 @@
   "registration.component.login": "Zaloguj się",
   "registration.component.login.userNotFound": "Użytkownik nie znaleziony",
   "registration.component.resetPassword": "Zresetuj hasło",
-  "registration.component.welcome": "Witamy w obszarze roboczym <1>Rocket.Chat</1>",
+  "registration.component.welcome": "Witamy w obszarze roboczym {{siteName}}",
   "registration.page.login.errors.AppUserNotAllowedToLogin": "Użytkownicy aplikacji nie mogą logować się bezpośrednio.",
   "registration.page.login.errors.licenseUserLimitReached": "The maximum number of users has been reached.",
   "registration.page.login.errors.loginBlockedForIp": "Logowanie zostało tymczasowo zablokowane dla tego IP",
